@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CloudXClient" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cloudx_accent</item>
+        <item name="colorPrimaryVariant">@color/cloudx_surface</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="android:windowBackground">@color/cloudx_bg</item>
+        <item name="android:statusBarColor">@color/cloudx_bg</item>
+        <item name="android:navigationBarColor">@color/cloudx_bg</item>
+    </style>
+</resources>

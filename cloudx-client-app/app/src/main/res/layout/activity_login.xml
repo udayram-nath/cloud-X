@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="40dp"
+    android:background="#0A0A0F">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CLOUD X"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:textColor="#00B4FF"
+        android:letterSpacing="0.3"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="play anywhere"
+        android:textSize="13sp"
+        android:textColor="#555555"
+        android:letterSpacing="0.3"
+        android:layout_marginBottom="56dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIGNALING SERVER URL"
+        android:textSize="10sp"
+        android:textColor="#666666"
+        android:letterSpacing="0.3"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/serverUrlInput"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/input_bg"
+        android:hint="ws://192.168.1.100:8080"
+        android:hintTextColor="#333333"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:padding="14dp"
+        android:inputType="textUri"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PASSWORD"
+        android:textSize="10sp"
+        android:textColor="#666666"
+        android:letterSpacing="0.3"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/passwordInput"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/input_bg"
+        android:hint="Server password"
+        android:hintTextColor="#333333"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:padding="14dp"
+        android:inputType="textPassword"
+        android:layout_marginBottom="28dp" />
+
+    <Button
+        android:id="@+id/connectButton"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="CONNECT"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:letterSpacing="0.2"
+        android:backgroundTint="#00B4FF"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your server URL and password"
+        android:textColor="#555555"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp" />
+
+</LinearLayout>

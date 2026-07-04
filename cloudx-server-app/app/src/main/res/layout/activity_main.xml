@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:background="#0A0A0F">
+
+    <!-- CloudX Logo Text -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CLOUD X"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        android:textColor="#00B4FF"
+        android:letterSpacing="0.3"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SERVER"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:letterSpacing="0.5"
+        android:layout_marginBottom="48dp" />
+
+    <!-- Password field -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CONNECTION PASSWORD"
+        android:textSize="11sp"
+        android:textColor="#888888"
+        android:letterSpacing="0.2"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/passwordInput"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/input_background"
+        android:hint="Enter a password for clients"
+        android:hintTextColor="#444444"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:inputType="textPassword"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Start button -->
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="START SERVER"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:letterSpacing="0.2"
+        android:backgroundTint="#00B4FF"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Status text -->
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tap Start Server to begin"
+        android:textColor="#666666"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp" />
+
+</LinearLayout>
