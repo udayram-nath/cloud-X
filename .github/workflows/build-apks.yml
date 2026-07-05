@@ -1,0 +1,148 @@
+name: Build CloudX APKs
+
+# Builds both debug APKs on GitHub's runners (which have full internet
+# access to Google's Maven repo, unlike a locked-down sandbox), then
+# publishes them to a "latest" GitHub Release so they have permanent,
+# public download links — no login required, unlike raw workflow
+# artifacts (which expire after 90 days and require a GitHub account).
+#
+# To use:
+#   1. Push this repo to GitHub.
+#   2. Go to the "Actions" tab -> "Build CloudX APKs" -> "Run workflow"
+#      (it also runs automatically on every push to main).
+#   3. Once it finishes, go to the repo's "Releases" page (right sidebar
+#      on the repo homepage, or github.com/<you>/<repo>/releases) — the
+#      "latest" release will have both .apk files attached. Right-click
+#      each to copy a direct, permanent, public download link, e.g.:
+#        https://github.com/<you>/<repo>/releases/download/latest/cloudx-server-debug.apk
+#        https://github.com/<you>/<repo>/releases/download/latest/cloudx-client-debug.apk
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'cloudx-server-app/**'
+      - 'cloudx-client-app/**'
+      - '.github/workflows/build-apks.yml'
+
+permissions:
+  contents: write   # needed so the workflow can create/update the Release
+
+jobs:
+  build-server:
+    name: Build cloudx-server-app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make sure required SDK components are installed
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" > /dev/null
+
+      - name: Build debug APK
+        working-directory: cloudx-server-app
+        run: gradle assembleDebug --stacktrace
+
+      - name: Rename APK for a predictable release filename
+        run: |
+          mkdir -p out
+          cp cloudx-server-app/app/build/outputs/apk/debug/*.apk out/cloudx-server-debug.apk
+
+      - name: Upload build artifact (backup / debugging)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudx-server-debug-apk
+          path: out/cloudx-server-debug.apk
+          if-no-files-found: error
+
+      - name: Upload for release job
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-cloudx-server
+          path: out/cloudx-server-debug.apk
+
+  build-client:
+    name: Build cloudx-client-app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make sure required SDK components are installed
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" > /dev/null
+
+      - name: Build debug APK
+        working-directory: cloudx-client-app
+        run: gradle assembleDebug --stacktrace
+
+      - name: Rename APK for a predictable release filename
+        run: |
+          mkdir -p out
+          cp cloudx-client-app/app/build/outputs/apk/debug/*.apk out/cloudx-client-debug.apk
+
+      - name: Upload build artifact (backup / debugging)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudx-client-debug-apk
+          path: out/cloudx-client-debug.apk
+          if-no-files-found: error
+
+      - name: Upload for release job
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-cloudx-client
+          path: out/cloudx-client-debug.apk
+
+  release:
+    name: Publish Release with download links
+    needs: [ build-server, build-client ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download server APK
+        uses: actions/download-artifact@v4
+        with:
+          name: release-cloudx-server
+          path: release-assets
+
+      - name: Download client APK
+        uses: actions/download-artifact@v4
+        with:
+          name: release-cloudx-client
+          path: release-assets
+
+      - name: Publish / update the "latest" release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest build
+          body: |
+            Auto-built from the most recent push to `main`.
+            Debug APKs — install directly, or `adb install <file>.apk`.
+            You'll need to allow "install from unknown sources" once on your phone.
+          make_latest: true
+          files: |
+            release-assets/cloudx-server-debug.apk
+            release-assets/cloudx-client-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
